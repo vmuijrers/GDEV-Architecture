@@ -1,68 +1,43 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class Player : MonoBehaviour
 {
-    public float Health { get; private set; }
-    [SerializeField] private Slider healthSlider;
-    [SerializeField] private float maxHealth;
-
-    public enum Weapon { Sword, Bow }
-    public Weapon currentWeapon;
+    private IDamageable healthComponent;
+    private ICanAttack currentWeapon;
 
     // Start is called before the first frame update
-    void Start()
+    private void Start()
     {
-        
+        healthComponent = GetComponent<IDamageable>();
+        ObtainWeapon(GetComponent<ICanAttack>());
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnEnable()
     {
-        if (Input.GetKeyDown(KeyCode.Space)) TakeDamage(10);
-        if (Input.GetMouseButtonDown(0)) Attack(currentWeapon);
+        KeyInputController.Instance.RegisterKey(KeyCode.Space, TakeSomeDamage);
+        MouseInputController.Instance.RegisterKey(MouseInputController.MouseButtonType.Left, Attack);
     }
 
-    private void Attack(Weapon weaponType)
+    private void OnDisable()
     {
-        switch (weaponType)
-        {
-            case Weapon.Bow:
-                DoRangedAttack();
-                break;
-
-            case Weapon.Sword:
-                DoMeleeAttack();
-                break;
-        }
+        KeyInputController.Instance.UnRegisterKey(KeyCode.Space, TakeSomeDamage);
+        MouseInputController.Instance.UnRegisterKey(MouseInputController.MouseButtonType.Left, Attack);
     }
 
-    private void DoMeleeAttack()
+    private void TakeSomeDamage()
     {
-
+        Debug.Log("Took some damage");
+        healthComponent.TakeDamage(10f);
     }
 
-    private void DoRangedAttack()
+    private void ObtainWeapon(ICanAttack _weapon)
     {
-
+        if (_weapon == null) return;
+        currentWeapon = _weapon;
     }
 
-    public void TakeDamage(float _damage)
+    private void Attack()
     {
-        Health -= _damage;
-        healthSlider.value = Health / maxHealth;
-
-        if (Health <= 0)
-        {
-            Die();
-        }
-    }
-
-    private void Die()
-    {
-
+        currentWeapon.Attack();
     }
 }

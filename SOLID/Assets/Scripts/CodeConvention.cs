@@ -4,40 +4,35 @@ using UnityEngine;
 
 public class CodeConvention : MonoBehaviour
 {
-    //Variables
-    //Option 1 -> 3
-    public float Health;
-    private float someVal = 1f;
+    //Order Variables/Properties/Functions (Constructor, Monobehaviour, Custom) -> Winner
+    //option 1 Grouping (public, private, protected)
 
-    //Option 2 -> ~16 <-Winner
+    //Variables: only small letters, order of variables, based on grouping
     public float someVariableIsCool = 1f;
     private float someVariableIsCool2 = 1f;
 
-    //Option 3 -> 2
-    public float ssomeVariableIsCool2 = 1f;
-    private float _someVariableIsCool2 = 1f;
-
-    //-> 5
-    public GameObject Target;
-
-    //Functions:
-    //Optie 1: -> 14 <- Winner
-    public void DoSomething(float _someVal, int _arg2)
+    //Properties with small letters
+    public float someFloat2
     {
-        someVal = _someVal;
-        //this.someVal = someVal;
+        get;
+        set;
     }
 
-    // Optie 2: -> 9
-    public void DoSomething2(float someVal, int arg2)
+    //Functions:
+    //use underscores for arguments
+    public void DoSomething(float _someVal, int _arg2)
     {
-        this.someVal = someVal;
+        someVariableIsCool = _someVal;
     }
 
     //Brackets:
-    //Option 1 ->18 -> Winner
+    //Brackets always on next line, use brackets also for one line statements
     void SomeFunc()
     {
+        if (true)
+        {
+            SomeFunc(); //next line
+        }
         if (true)
         {
             for (int i = 0; i < 3; i++)
@@ -46,70 +41,12 @@ public class CodeConvention : MonoBehaviour
             }
         }
     }
-    
-    //Option 2 -> 4
-    void SomeFunc2() {
-
-    }
-
-    //One liner
-    //Option 1: (one rule)
-    void Bla()
-    {
-        if (true) DoSomething(); //option 1 -> 13 -> Winner
-
-        if (true) //option 1.5 -> 2
-            DoSomething();
-
-        if (true) { DoSomething(); } //option 2 -> 3
-        if (true)//optiion =3 -> 6
-        {
-            DoSomething();
-        }
-
-        void OneRuler() { DoSomething(); SomeFunc2(); }
-    }
-
-    void DoSomething()
-    {
-
-    }
 }
 
-
-public class SomeClass
-    {
-        public float someFloat;
-        private float someOtherFloat;
-
-        //Properties
-        //option 1 -> 3
-        public float SomeFloat
-        {
-            get; set;
-        }
-
-        //option 2 -> 11 -> Winner
-        private float playerFloat;
-        public float someFloat2
-        {
-            get;
-            set;
-        }
-        public float someFloat3 { get; }
-        public float someFloat4 => someFloat3;
-    }
-
-    //Order Variables/Properties/Functions (Constructor, Monobehaviour, Custom) -> Winner
-    //option 1 Grouping (public, private, protected)
-
-    //option 2 
-    //Variables, Properties, Functions
-
-    //Comments
-    //Option 1: boven als het over meerdere regels gaat
-    //Functies alleen commenten als je een complexe functie schrijft
-
+//Comments
+//Option 1: boven als het over meerdere regels gaat
+//Functies alleen commenten als je een complexe functie schrijft
+//Interfaces start with an I
 public interface IStartInterfaceWIthI
 {
 
